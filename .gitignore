@@ -1,0 +1,12 @@
+venv/
+__pycache__
+
+.vscode/
+.idea
+
+*.xml
+*.env
+*.json
+
+docker/
+deploy.sh
