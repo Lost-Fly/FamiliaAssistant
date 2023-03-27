@@ -15,7 +15,7 @@ from utils import log
 
 @dispatcher.message_handler(commands=['start_dialog'])
 async def gpt_request(message: types.Message):
-    if not await is_authorized(message.chat.id):
+    if not await is_authorized(message):
         return
 
     user: User = await user_repository.get_by_id(message.chat.id)
@@ -60,5 +60,4 @@ async def awaiting_user_message(message: types.Message, state: FSMContext):
 
 async def clear_messages_history(user_id: int):
     user: User = await user_repository.get_by_id(user_id)
-    user.messages_history.clear()
     await user_repository.save(user)

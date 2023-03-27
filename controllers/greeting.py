@@ -17,7 +17,7 @@ greeting: str = """
 
 @dispatcher.message_handler(commands=['start'])
 async def greeting_message(message: types.Message):
-    if not await is_authorized(message.chat.id):
+    if not await is_authorized(message):
         return
 
     await message.answer(greeting)

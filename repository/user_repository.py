@@ -12,10 +12,17 @@ class UserRepository:
                                                        db=REDIS_DB,
                                                        decode_responses=False)
 
-    async def get_by_id(self, user_id: int) -> User:
-        user: User | None = await self.__redis_client.get(user_id)
+    async def get_by_id(self, user_id: int | bytes) -> User:
+        user: User = await self.__redis_client.get(user_id)
+        return pickle.loads(user) if user else User.empty()
 
-        return pickle.loads(user) if user else User(user_id)
+    async def get_by_nickname(self, nickname: str) -> User:
+        users_id: list[bytes] = await self.__redis_client.keys()
+
+        for uid in users_id:
+            user: User = await self.get_by_id(uid)
+            if user.get_nickname() == nickname:
+                return user
 
     async def save(self, user: User):
         await self.__redis_client.set(user.get_id(), pickle.dumps(user))

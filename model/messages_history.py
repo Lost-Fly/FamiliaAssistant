@@ -20,10 +20,10 @@ class MessagesHistory:
         return len(encoding.encode(text))
 
     def __reduce_history(self):
-        def tokens_amount() -> int:
+        def tokens_total_amount() -> int:
             return sum(self.__tokens_number(message_set["content"]) for message_set in self.__messages_history)
 
-        while tokens_amount() >= 1400:
+        while tokens_total_amount() >= 1400:
             self.__messages_history.pop(1)
 
     def append_message(self, role: str, message: str):
@@ -36,3 +36,14 @@ class MessagesHistory:
     def clear(self):
         # keep only username
         self.__messages_history = self.__messages_history[:1]
+
+    def __str__(self) -> str:
+        final_string: str = ""
+
+        for message in self.__messages_history:
+            if message["role"] == "user":
+                final_string += f"<u><b>User</b></u>: {message['content']}\n"
+            else:
+                final_string += f"<u><b>AI</b></u>: {message['content']}\n"
+
+        return final_string

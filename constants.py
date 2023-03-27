@@ -1,8 +1,9 @@
 import os
 
-from dotenv import load_dotenv
+import dotenv
 
-load_dotenv()
+env_file: str = dotenv.find_dotenv()
+dotenv.load_dotenv()
 
 GPT_API_KEY: str = os.getenv("GPT_API_KEY")
 
@@ -23,3 +24,11 @@ REQUEST_OPTIONS: dict = {
 }
 
 ALLOWED_PHONES: list[str] = os.getenv('ALLOWED_PHONES').split(" ")
+GODS: list[str] = os.getenv('GODS').split(" ")
+
+# commands, user_by_id, user_by_nickname, save_phone, all_phones, delete_phone
+GOD_ALLOWED_COMMANDS: list[str] = ["commands", "ubi", "ubn", "sp", "ap", "dp"]
+
+
+def update_env(key: str, value: str):
+    dotenv.set_key(env_file, key_to_set=key, value_to_set=value)

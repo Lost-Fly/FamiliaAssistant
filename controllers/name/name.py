@@ -10,7 +10,7 @@ from utils import log
 
 @dispatcher.message_handler(commands=['name'])
 async def set_name(message: types.Message):
-    if not await is_authorized(message.chat.id):
+    if not await is_authorized(message):
         return
 
     await message.answer("Напишите своё имя")
